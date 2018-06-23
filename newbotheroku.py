@@ -15,7 +15,7 @@ success = u'\U00002705' # unaviable
 close = u'\U0000274C' # unaviable
 sby= u'\U0001F4E1' # sby text 1F4DD
 rashif = u'\U0001F4DD' # расшифровка сбу
-bot = telebot.TeleBot(Token)
+bot = telebot.TeleBot(TOKEN)
 schedule_markup = telebot.types.ReplyKeyboardMarkup(True, False)
 schedule_markup.row('Сегодня', 'Завтра')
 keyboard = telebot.types.InlineKeyboardMarkup()
