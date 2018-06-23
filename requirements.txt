@@ -1,0 +1,8 @@
+pyTelegramBotAPI
+datetime
+psycopg2
+shelve
+random
+beautifulsoup4
+re
+os
