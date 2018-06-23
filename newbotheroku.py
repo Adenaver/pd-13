@@ -4,7 +4,6 @@ import datetime
 import telebot
 import re
 import time
-import schedule
 import os
 import random
 import shelve
