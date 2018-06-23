@@ -10,6 +10,10 @@ import shelve
 import psycopg2
 from flask import Flask, request
 TOKEN = os.environ.get('TOKEN')
+hostname = os.environ.get('hosting')
+username = os.environ.get('user')
+password = os.environ.get('password')
+database = os.environ.get('dbname')
 unaviable = u'\U0001F512' # unaviable
 success = u'\U00002705' # unaviable
 close = u'\U0000274C' # unaviable
