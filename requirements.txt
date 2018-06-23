@@ -3,3 +3,4 @@ datetime
 psycopg2
 beautifulsoup4
 flask
+psycopg2-binary
