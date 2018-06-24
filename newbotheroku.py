@@ -148,12 +148,12 @@ def nulled(message):
         print(mes)
 @bot.message_handler(commands=['status'])
 def status(message):
-    keyboard12 = types.InlineKeyboardMarkup()
-    url_button = types.InlineKeyboardButton(text="Посмотреть статус", url="https://pd13.statuskit.com/")
+    keyboard12 = telebot.types.InlineKeyboardMarkup()
+    url_button = telebot.types.InlineKeyboardButton(text="Посмотреть статус", url="https://pd13.statuskit.com/")
     keyboard12.add(url_button)
     bot.send_message(message.chat.id, "Нажми на кнопку что бы перейти на сервис проверки", reply_markup=keyboard12)
-@bot.message_handler(commands=['status'])
-def status(message):
+@bot.message_handler(commands=['check_users'])
+def check_user(message):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
     cur.execute("SELECT * FROM users")
