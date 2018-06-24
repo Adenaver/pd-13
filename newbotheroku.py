@@ -167,7 +167,7 @@ def spin(message):
                 if row == None:
                     break
                 else:
-                    print(row[2]+row[3])
+                    print(str(row[2])+str(row[3]))
                     counter+=1
             print("Кол-во участников: "+str(counter))
             con.commit()
