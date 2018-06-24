@@ -188,7 +188,7 @@ def spin(message):
                     break
                 elif i==randomizer:
                     #bot.send_message(message.chat.id,"Сегодня красавчик дня: "+row[2]+row[3])
-                    bot.send_message(message.chat.id,"Сегодня красавчик дня: "+row[2]+" "+row[3]+" 👑")
+                    bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
                 print("Ход поиска:"+str(i))
@@ -225,7 +225,7 @@ def spin(message):
                     print("Остановка поиска. Конец БД")
                     break
                 elif i==randomizer:
-                    bot.send_message(message.chat.id,"Сегодня красавчик дня: "+row[2]+" "+row[3]+" 👑")
+                    bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
                 print("Ход поиска:"+str(i))
