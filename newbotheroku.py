@@ -146,6 +146,25 @@ def nulled(message):
     else:
         bot.send_message(message.chat.id,"🔒 У тебя нет прав на эту команду.")
         print(mes)
+@bot.message_handler(commands=['status'])
+def status(message):
+    keyboard12 = types.InlineKeyboardMarkup()
+    url_button = types.InlineKeyboardButton(text="Посмотреть статус", url="https://pd13.statuskit.com/")
+    keyboard12.add(url_button)
+    bot.send_message(message.chat.id, "Нажми на кнопку что бы перейти на сервис проверки", reply_markup=keyboard12)
+@bot.message_handler(commands=['status'])
+def status(message):
+    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+    cur = con.cursor()
+    cur.execute("SELECT * FROM users")
+    while True:
+        row = cur.fetchone()
+        if row == None:
+            break
+        if row[3]==None:
+            bot.send_message(message.chat.id,"У пользователя"+str(row[2]+str(row[3])+"не правильно заполнено имя и фамилия. Рекомендую исправить.")
+    con.commit()
+    con.close()
 @bot.message_handler(commands=['spin'])
 def spin(message):
     today = datetime.datetime.now()
@@ -241,10 +260,6 @@ def spin(message):
     db.close()
 @bot.message_handler(commands=['lottery'])
 def lottery(message):
-    hostname = 'pellefant.db.elephantsql.com'
-    username = 'axwihbpd'
-    password = 'FAKqDfFgwFzn8-2Icl3IkXjp77eVuWSR'
-    database = 'axwihbpd'
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
     id = random.randint(0,30)
