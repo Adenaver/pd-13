@@ -161,7 +161,7 @@ def check_user(message):
         row = cur.fetchone()
         if row == None:
             break
-        elif row[3]=="null":
+        elif row[3]==null:
             bot.send_message(message.chat.id,"У пользователя"+str(row[2])+str(row[3])+"не правильно заполнено имя и фамилия. Рекомендую исправить.")
     con.commit()
     con.close()
