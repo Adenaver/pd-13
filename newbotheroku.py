@@ -161,9 +161,8 @@ def status(message):
         row = cur.fetchone()
         if row == None:
             break
-        if row[3]==None:
+        elif row[3]==None:
             bot.send_message(message.chat.id,"У пользователя"+str(row[2]+str(row[3])+"не правильно заполнено имя и фамилия. Рекомендую исправить.")
-    con.commit()
     con.close()
 @bot.message_handler(commands=['spin'])
 def spin(message):
