@@ -9,7 +9,7 @@ import random
 import shelve
 import psycopg2
 from flask import Flask, request
-from top import
+from top import top_list
 TOKEN = os.environ.get('TOKEN')
 hostname = os.environ.get('hosting')
 username = os.environ.get('user')
