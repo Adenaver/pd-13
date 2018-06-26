@@ -9,6 +9,7 @@ import random
 import shelve
 import psycopg2
 from flask import Flask, request
+from top import
 TOKEN = os.environ.get('TOKEN')
 hostname = os.environ.get('hosting')
 username = os.environ.get('user')
@@ -119,7 +120,13 @@ def callback_inline(call):
 
 @bot.message_handler(commands=['testing'])
 def schedule(message):
-    parsing_timetable(call.message)
+    count = bot.reply_to(message, 'Сколько нужно перевести')
+    con = sqlite3.connect('Info3.db')
+    cur = con.cursor()
+    test=376995776
+    cur.execute("UPDATE users SET money = 2 WHERE user_id = %s" % test)
+    con.commit()
+    con.close()
 @bot.message_handler(commands=['menu'])
 def ss(message):
     bot.send_message(message.chat.id,"Выбери что тебе нужно сделать:",reply_markup=keyboard)
@@ -127,6 +134,9 @@ def ss(message):
 def about_lottery(message):
     bot.send_message(message.chat.id,"Игра в которой, ты можешь испытать свою удачу.\n Каждый день выбирается рандомно красавчик дня")
     bot.send_message(message.chat.id,"Команды: \n /lottery - участвовать в игре\n /lottery_leave - покинуть игру")
+@bot.message_handler(commands=['top'])
+def top_lst(message):
+    top_list(message)
 @bot.message_handler(commands=['setnull'])
 def nulled(message):
     if message.from_user.id== 376995776:
@@ -161,8 +171,8 @@ def check_user(message):
         row = cur.fetchone()
         if row == None:
             break
-        elif row[3]==null:
-            bot.send_message(message.chat.id,"У пользователя"+str(row[2])+str(row[3])+"не правильно заполнено имя и фамилия. Рекомендую исправить.")
+        elif row[3]==None:
+            bot.send_message(message.chat.id,"🚨 У пользователя "+str(row[2])"не правильно заполнены поля имя и фамилия.")
     con.commit()
     con.close()
 @bot.message_handler(commands=['spin'])
@@ -282,7 +292,7 @@ def lottery(message):
     con.commit()
     con.close()
 
-@server.route('/' + TOKEN, methods=['POST'])
+@server.route('/' + str(TOKEN), methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
     return "!", 200
@@ -291,7 +301,7 @@ def getMessage():
 @server.route("/")
 def webhook():
     bot.remove_webhook()
-    bot.set_webhook(url='https://pd13informer.herokuapp.com/' + TOKEN)
+    bot.set_webhook(url='https://pd13informer.herokuapp.com/' + str(TOKEN))
     return "!", 200
 
 def remove():
