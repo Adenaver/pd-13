@@ -1,6 +1,9 @@
 import requests
 import psycopg2
 import os
+import telebot
+TOKEN = os.environ.get('TOKEN')
+bot = telebot.TeleBot(TOKEN)
 hostname = os.environ.get('hosting')
 username = os.environ.get('user')
 password = os.environ.get('password')
