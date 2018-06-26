@@ -172,7 +172,7 @@ def check_user(message):
         if row == None:
             break
         elif row[3]==None:
-            bot.send_message(message.chat.id,"🚨 У пользователя "+str(row[2])+"не правильно заполнены поля имя и фамилия.")
+            bot.send_message(message.chat.id,"🚨 У пользователя "+str(row[2])+" не правильно заполнены поля имя и фамилия.")
     con.commit()
     con.close()
 @bot.message_handler(commands=['spin'])
