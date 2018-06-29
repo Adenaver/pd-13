@@ -118,16 +118,6 @@ def callback_inline(call):
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Держи!")
         elif call.data == "lottery":
             lottery(call)
-
-@bot.message_handler(commands=['testing'])
-def schedule(message):
-    count = bot.reply_to(message, 'Сколько нужно перевести')
-    con = sqlite3.connect('Info3.db')
-    cur = con.cursor()
-    test=376995776
-    cur.execute("UPDATE users SET money = 2 WHERE user_id = %s" % test)
-    con.commit()
-    con.close()
 @bot.message_handler(commands=['menu'])
 def ss(message):
     bot.send_message(message.chat.id,"Выбери что тебе нужно сделать:",reply_markup=keyboard)
@@ -173,7 +163,7 @@ def check_user(message):
         if row == None:
             break
         elif row[3]==None:
-            bot.send_message(message.chat.id,"🚨 У пользователя "+str(row[2])+" не правильно заполнены поля имя и фамилия.")
+            bot.send_message(message.chat.id,"🚨 У пользователя "+str(row[2])+" не заполненно поле Фамилия.")
     con.commit()
     con.close()
 @bot.message_handler(commands=['spin'])
@@ -217,7 +207,6 @@ def spin(message):
                     print("Остановка поиска. Конец БД")
                     break
                 elif i==randomizer:
-                    #bot.send_message(message.chat.id,"Сегодня красавчик дня: "+row[2]+row[3])
                     bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
@@ -284,8 +273,6 @@ def lottery(message):
     last_name = message.from_user.last_name
     cur.execute("""INSERT INTO users (id,user_id,first,last) VALUES (%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name))
     bot.send_message(message.chat.id,success+"Ты в игре.")
-
-        #bot.send_message(message.chat.id,close+"Ты уже участвуешь в игре.")
     con.commit()
     con.close()
 @bot.message_handler(commands=['lottery_leave'])
