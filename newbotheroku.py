@@ -10,6 +10,7 @@ import shelve
 import psycopg2
 from flask import Flask, request
 from top import top_list
+from update_score import new_score
 TOKEN = os.environ.get('TOKEN')
 hostname = os.environ.get('hosting')
 username = os.environ.get('user')
@@ -220,6 +221,8 @@ def spin(message):
                     bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
+                    id=row[1]
+                    update_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
             db['time']=last.strftime('%H%M%S')
@@ -257,6 +260,8 @@ def spin(message):
                     bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
+                    id=row[1]
+                    update_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
             db['time']=last.strftime('%H%M%S')
@@ -264,7 +269,8 @@ def spin(message):
             con.close()
     else:
         winner=db['winner']
-        bot.send_message(message.chat.id,"🕒 Куда спешишь? Ещё рано :О")
+        timetogame=db['time']
+        bot.send_message(message.chat.id,"🕒 Куда спешишь? Ещё рано :О. Следующая игра будет доступна в "+info_bd[:2]+":"+info_bd[4:])
         bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
     db.sync()
     db.close()
