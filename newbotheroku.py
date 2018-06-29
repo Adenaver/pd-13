@@ -211,7 +211,7 @@ def spin(message):
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
                     id=row[1]
-                    update_score(id,counter)
+                    new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
             db['time']=last.strftime('%H%M%S')
@@ -250,7 +250,7 @@ def spin(message):
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
                     id=row[1]
-                    update_score(id,counter)
+                    new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
             db['time']=last.strftime('%H%M%S')
