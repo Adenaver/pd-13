@@ -14,7 +14,7 @@ def new_score(id,counter):
         if row == None:
             print("Остановка поиска. Конец БД")
             break
-        elif row[1]==test2:
+        elif row[1]==id:
             score=row[0]
             score+=1
     cur.execute("UPDATE users SET id = %s WHERE user_id = %s",(score,id))
