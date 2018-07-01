@@ -133,7 +133,10 @@ def nulled(message):
     if message.from_user.id== 376995776:
         db = shelve.open("config.txt")
         bot.send_message(message.chat.id,"✨ Время сброшено.")
-        db['time']="235959"
+        now=datetime.datetime.now()
+        now_1=now.strftime('%d%m')
+        now_1=-100
+        db['time']=now_1
         db['winner']="NULL"
         db.sync()
         db.close()
@@ -169,13 +172,13 @@ def check_user(message):
 @bot.message_handler(commands=['spin'])
 def spin(message):
     today = datetime.datetime.now()
-    now=today.strftime('%H%M%S')
+    now=today.strftime('%d%m')
     db = shelve.open("config.txt")
     #db['time']=today.strftime('%H%M%S')
     info_bd=db['time']
     print(info_bd)
     print(now)
-    if info_bd>now:
+    if info_bd!=now:
         rand=random.randint(1,2)
         if rand==1:
             counter=0
@@ -214,7 +217,7 @@ def spin(message):
                     new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
-            db['time']=last.strftime('%H%M%S')
+            db['time']=last.strftime('%d%m')
             con.commit()
             con.close()
         if rand==2:
@@ -253,13 +256,12 @@ def spin(message):
                     new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
-            db['time']=last.strftime('%H%M%S')
+            db['time']=last.strftime('%d%m')
             con.commit()
             con.close()
     else:
         winner=db['winner']
-        timetogame=db['time']
-        bot.send_message(message.chat.id,"🕒 Куда спешишь? Ещё рано :О. Следующая игра будет доступна в "+info_bd[:2]+":"+info_bd[4:])
+        bot.send_message(message.chat.id,"🕒 Куда спешишь? Следующая игра будет доступна завтра.")
         bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
     db.sync()
     db.close()
