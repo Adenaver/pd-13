@@ -266,8 +266,8 @@ def spin(message):
 
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
-            time=last.strftime('%d%m')
-            new_time(time,winner)
+            times=last.strftime('%d%m')
+            new_time(times,winner)
             con.commit()
             con.close()
     else:

@@ -4,10 +4,10 @@ hostname = os.environ.get('hosting')
 username = os.environ.get('user')
 password = os.environ.get('password')
 database = os.environ.get('dbname')
-def new_time(time,winner):
+def new_time(times,winner):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
-    cur.execute("UPDATE times SET last_time = %s WHERE user_id = 123",(time,id))
+    cur.execute("UPDATE times SET last_time = %s WHERE user_id = 123",(times,id))
     cur.execute("UPDATE times SET last_win = %s WHERE user_id = 123",(winner,id))
     con.commit()
     con.close()
