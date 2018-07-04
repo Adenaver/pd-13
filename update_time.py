@@ -1,9 +1,9 @@
 import psycopg2
 import os
-hostname = "pellefant.db.elephantsql.com"
-username = "axwihbpd"
-password = "FAKqDfFgwFzn8-2Icl3IkXjp77eVuWSR"
-database = "axwihbpd"
+hostname = os.environ.get('hosting')
+username = os.environ.get('user')
+password = os.environ.get('password')
+database = os.environ.get('dbname')
 def new_time(time,winner):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
