@@ -177,6 +177,7 @@ def spin(message):
     today = datetime.datetime.now()
     now=today.strftime('%d%m')
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+    cur = con.cursor()
     cur.execute("SELECT last_time FROM times WHERE user_id = 123")
     row=cur.fetchone()
     info_bd=row[0]
