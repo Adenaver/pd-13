@@ -10,7 +10,10 @@ import shelve
 import psycopg2
 from flask import Flask, request
 from top import top_list
+from random import choice
+from string import ascii_uppercase
 from update_score import new_score
+from update_time import new_time
 TOKEN = os.environ.get('TOKEN')
 hostname = os.environ.get('hosting')
 username = os.environ.get('user')
@@ -173,11 +176,11 @@ def check_user(message):
 def spin(message):
     today = datetime.datetime.now()
     now=today.strftime('%d%m')
-    db = shelve.open("config.txt")
-    #db['time']=today.strftime('%H%M%S')
-    info_bd=db['time']
-    print(info_bd)
-    print(now)
+    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+    cur.execute("SELECT last_time FROM times WHERE user_id = 123")
+    row=cur.fetchone()
+    info_bd=row[0]
+    con.close()
     if info_bd!=now:
         rand=random.randint(1,2)
         if rand==1:
@@ -203,6 +206,7 @@ def spin(message):
             print("Выбран рандомно: "+str(randomizer))
             con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
             cur = con.cursor()
+            winner="null"
             cur.execute("SELECT * FROM users")
             for i in range(counter):
                 row = cur.fetchone()
@@ -210,11 +214,14 @@ def spin(message):
                     print("Остановка поиска. Конец БД")
                     break
                 elif i==randomizer:
-                    bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
+                    if row[2]=="null":
+                        bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+" 👑")
+                    else:
+                        bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     win=str(row[2])+" "+str(row[3])
                     db['winner']=win
                     id=row[1]
-                    new_score(id,counter)
+                    #new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
             db['time']=last.strftime('%d%m')
@@ -249,14 +256,17 @@ def spin(message):
                     print("Остановка поиска. Конец БД")
                     break
                 elif i==randomizer:
-                    bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
-                    win=str(row[2])+" "+str(row[3])
-                    db['winner']=win
-                    id=row[1]
-                    new_score(id,counter)
+                    if row[2]=="null":
+                        bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+" 👑")
+                    else:
+                        bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
+                    winner=str(row[2])+" "+str(row[3])
+                    #new_score(id,counter)
+
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
-            db['time']=last.strftime('%d%m')
+            time=last.strftime('%d%m')
+            new_time(time,winner)
             con.commit()
             con.close()
     else:
@@ -273,7 +283,9 @@ def lottery(message):
     user_id = message.from_user.id
     first_name = message.from_user.first_name
     last_name = message.from_user.last_name
-    cur.execute("""INSERT INTO users (id,user_id,first,last) VALUES (%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name))
+    migrate_id=''.join(choice(ascii_uppercase) for i in range(20))
+    migrated="No"
+    cur.execute("""INSERT INTO users (id,user_id,first,last) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name,migrate_id,migrated))
     bot.send_message(message.chat.id,success+"Ты в игре.")
     con.commit()
     con.close()
