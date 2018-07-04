@@ -224,7 +224,8 @@ def spin(message):
                     #new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
-            db['time']=last.strftime('%d%m')
+            times=last.strftime('%d%m')
+            new_time(times,winner)
             con.commit()
             con.close()
         if rand==2:
