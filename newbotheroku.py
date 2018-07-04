@@ -174,6 +174,7 @@ def check_user(message):
     con.close()
 @bot.message_handler(commands=['spin'])
 def spin(message):
+    bot.send_message(message.chat.id,"🚨 Внимание! В данный момент тестируются новые функции. В связи с этим была отключенна запись в топ на несколько суток. Все выигрыши будут зачисленны в ближайшее время.")
     today = datetime.datetime.now()
     now=today.strftime('%d%m')
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
@@ -219,9 +220,7 @@ def spin(message):
                         bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+" 👑")
                     else:
                         bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
-                    win=str(row[2])+" "+str(row[3])
-                    db['winner']=win
-                    id=row[1]
+                    winner=str(row[2])+" "+str(row[3])
                     #new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
@@ -273,7 +272,7 @@ def spin(message):
     else:
         winner=db['winner']
         bot.send_message(message.chat.id,"🕒 Куда спешишь? Следующая игра будет доступна завтра.")
-        bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
+        #bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
     db.sync()
     db.close()
 @bot.message_handler(commands=['lottery'])
