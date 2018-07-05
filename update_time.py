@@ -21,4 +21,3 @@ def test_insert():
     cur.execute("""INSERT INTO times (user_id,last_time,last_win) VALUES (%s,%s,%s) ON CONFLICT DO NOTHING""", (user,last,win))
     con.commit()
     con.close()
-test_insert()
