@@ -174,7 +174,6 @@ def check_user(message):
     con.close()
 @bot.message_handler(commands=['spin'])
 def spin(message):
-    bot.send_message(message.chat.id,"🚨 Внимание! В данный момент тестируются новые функции. В связи с этим была отключенна запись в топ на несколько суток. Все выигрыши будут зачисленны в ближайшее время.")
     today = datetime.datetime.now()
     now=today.strftime('%d%m')
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
@@ -184,6 +183,7 @@ def spin(message):
     info_bd=row[0]
     con.close()
     if info_bd!=now:
+        bot.send_message(message.chat.id,"🚨 Внимание! В данный момент тестируются новые функции. В связи с этим была отключенна запись в топ на несколько суток. Все выигрыши будут зачисленны в ближайшее время.")
         rand=random.randint(1,2)
         if rand==1:
             counter=0
