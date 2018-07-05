@@ -7,8 +7,9 @@ database = os.environ.get('dbname')
 def new_time(times,winner):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
-    cur.execute("UPDATE times SET last_time = %s WHERE user_id = 123",(times))
-    cur.execute("UPDATE times SET last_win = %s WHERE user_id = 123",(winner))
+    id=123
+    cur.execute("UPDATE times SET last_time = %s WHERE user_id = %s",(times,id))
+    cur.execute("UPDATE times SET last_win = %s WHERE user_id = %s",(winner,id))
     con.commit()
     con.close()
 def test_insert():
