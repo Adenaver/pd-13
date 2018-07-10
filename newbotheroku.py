@@ -183,7 +183,7 @@ def spin(message):
     info_bd=row[0]
     con.close()
     if info_bd!=now:
-        bot.send_message(message.chat.id,"🚨 Внимание! В данный момент тестируются новые функции. В связи с этим была отключенна запись в топ на несколько суток. Все выигрыши будут зачисленны в ближайшее время.")
+        bot.send_message(message.chat.id,"🚨 Внимание! С 14.07.2018 по 18.07.2018 будет технологическое окно. В 19,20,21 числах будут проведенны по 2 игры. 🚨")
         rand=random.randint(1,2)
         if rand==1:
             counter=0
@@ -221,7 +221,7 @@ def spin(message):
                     else:
                         bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     winner=str(row[2])+" "+str(row[3])
-                    #new_score(id,counter)
+                    new_score(id,counter)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
             times=last.strftime('%d%m')
@@ -262,7 +262,7 @@ def spin(message):
                     else:
                         bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     winner=str(row[2])+" "+str(row[3])
-                    #new_score(id,counter)
+                    new_score(id,counter)
 
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
