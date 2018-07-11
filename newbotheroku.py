@@ -164,10 +164,13 @@ def check_user(message):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
     id=message.from_user.id
-    cur.execute("SELECT id FROM users WHERE user_id = %s",(id,))
-    row=cur.fetchone()
-    wins=row[0]
-    bot.send_message(message.chat.id,"У тебя - "+str(wins)+" побед.")
+    try:
+        cur.execute("SELECT id FROM users WHERE user_id = %s",(id,))
+        row=cur.fetchone()
+        wins=row[0]
+        bot.send_message(message.chat.id,"У тебя - "+str(wins)+" побед.")
+    except TypeError:
+        bot.send_message(message.chat.id,"В базе не найдена ваша запись.")
     con.commit()
     con.close()
 @bot.message_handler(commands=['check_users'])
