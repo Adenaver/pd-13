@@ -153,12 +153,9 @@ def nulled(message):
     else:
         bot.send_message(message.chat.id,"🔒 У тебя нет прав на эту команду.")
         print(mes)
-@bot.message_handler(commands=['status'])
+@bot.message_handler(commands=['s'])
 def status(message):
-    keyboard12 = telebot.types.InlineKeyboardMarkup()
-    url_button = telebot.types.InlineKeyboardButton(text="Посмотреть статус", url="https://pd13.statuskit.com/")
-    keyboard12.add(url_button)
-    bot.send_message(message.chat.id, "Нажми на кнопку что бы перейти на сервис проверки", reply_markup=keyboard12)
+    print(message.chat.id)
 @bot.message_handler(commands=['my_wins'])
 def check_user(message):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
