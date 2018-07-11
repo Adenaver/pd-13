@@ -159,6 +159,17 @@ def status(message):
     url_button = telebot.types.InlineKeyboardButton(text="Посмотреть статус", url="https://pd13.statuskit.com/")
     keyboard12.add(url_button)
     bot.send_message(message.chat.id, "Нажми на кнопку что бы перейти на сервис проверки", reply_markup=keyboard12)
+@bot.message_handler(commands=['my_wins'])
+def check_user(message):
+    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+    cur = con.cursor()
+    id=message.from_user.id
+    cur.execute("SELECT id FROM users WHERE user_id = %s",(id,))
+    row=cur.fetchone()
+    wins=row[0]
+    bot.send_message(message.chat.id,"У тебя - "+str(wins)+" побед.")
+    con.commit()
+    con.close()
 @bot.message_handler(commands=['check_users'])
 def check_user(message):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
