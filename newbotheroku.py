@@ -299,7 +299,7 @@ def lottery(message):
     last_name = message.from_user.last_name
     migrate_id=''.join(choice(ascii_uppercase) for i in range(20))
     migrated="No"
-    cur.execute("""INSERT INTO users (id,user_id,first,last) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name,migrate_id,migrated))
+    cur.execute("""INSERT INTO users (id,user_id,first,last,migrate_id,migrated) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name,migrate_id,migrated))
     bot.send_message(message.chat.id,success+"Ты в игре.")
     con.commit()
     con.close()
