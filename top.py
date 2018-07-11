@@ -72,3 +72,43 @@ def top_list(message):
     print("3 Имя: "+str(name3))
     con.commit()
     con.close()
+    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+    cur = con.cursor()
+    cur.execute("SELECT * FROM users")
+    max4=0
+    name4=0
+    id4=0
+    while True:
+        row = cur.fetchone()
+        if row == None:
+            break
+        else:
+            if row[1]!=id2 and row[1]!=id1 and row[1]!=id3:
+                if row[0]>max4 and max3>=max4:
+                    max4=row[0]
+                    name4=str(row[2])+" "+str(row[3])
+                    id4=row[1]
+    bot.send_message(message.chat.id,"4): "+str(name4)+" Побед: "+str(max4)+" 👑")
+    print("4 Макс число: "+str(max4))
+    print("4 Имя: "+str(name4))
+    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+    cur = con.cursor()
+    cur.execute("SELECT * FROM users")
+    max5=0
+    name5=0
+    id5=0
+    while True:
+        row = cur.fetchone()
+        if row == None:
+            break
+        else:
+            if row[1]!=id2 and row[1]!=id1 and row[1]!=id3:
+                if row[0]>max5 and max4>=max5:
+                    max5=row[0]
+                    name5=str(row[2])+" "+str(row[3])
+                    id5=row[1]
+    bot.send_message(message.chat.id,"4): "+str(name5)+" Побед: "+str(max5)+" 👑")
+    print("5 Макс число: "+str(max5))
+    print("5 Имя: "+str(name5))
+    con.commit()
+    con.close()
