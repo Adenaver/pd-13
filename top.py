@@ -25,7 +25,7 @@ def top_list(message):
                 max1=row[0]
                 name1=str(row[2])+" "+str(row[3])
                 id1=row[1]
-    bot.send_message(message.chat.id,"1): "+str(name1)+" Побед: "+str(max1)+" 👑")
+    bot.send_message(message.chat.id,"1): "+str(name1)+" Побед: "+str(max1)+" 🥇")
     print("1 Макс число: "+str(max1))
     print("1 Имя: "+str(name1))
     con.commit()
@@ -46,7 +46,7 @@ def top_list(message):
                     max2=row[0]
                     name2=str(row[2])+" "+str(row[3])
                     id2=row[1]
-    bot.send_message(message.chat.id,"2): "+str(name2)+" Побед: "+str(max2)+" 👑")
+    bot.send_message(message.chat.id,"2): "+str(name2)+" Побед: "+str(max2)+" 🥈")
     print("2 Макс число: "+str(max2))
     print("2 Имя: "+str(name2))
     con.commit()
@@ -67,7 +67,7 @@ def top_list(message):
                     max3=row[0]
                     name3=str(row[2])+" "+str(row[3])
                     id3=row[1]
-    bot.send_message(message.chat.id,"3): "+str(name3)+" Побед: "+str(max3)+" 👑")
+    bot.send_message(message.chat.id,"3): "+str(name3)+" Побед: "+str(max3)+" 🥉")
     print("3 Макс число: "+str(max3))
     print("3 Имя: "+str(name3))
     con.commit()
