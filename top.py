@@ -88,7 +88,7 @@ def top_list(message):
                     max4=row[0]
                     name4=str(row[2])+" "+str(row[3])
                     id4=row[1]
-    bot.send_message(message.chat.id,"4): "+str(name4)+" Побед: "+str(max4)+" 👑")
+    bot.send_message(message.chat.id,"4): "+str(name4)+" Побед: "+str(max4))
     print("4 Макс число: "+str(max4))
     print("4 Имя: "+str(name4))
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
@@ -107,7 +107,7 @@ def top_list(message):
                     max5=row[0]
                     name5=str(row[2])+" "+str(row[3])
                     id5=row[1]
-    bot.send_message(message.chat.id,"5): "+str(name5)+" Побед: "+str(max5)+" 👑")
+    bot.send_message(message.chat.id,"5): "+str(name5)+" Побед: "+str(max5))
     print("5 Макс число: "+str(max5))
     print("5 Имя: "+str(name5))
     con.commit()

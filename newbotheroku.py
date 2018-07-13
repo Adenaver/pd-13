@@ -18,7 +18,7 @@ TOKEN = os.environ.get('TOKEN')
 hostname = os.environ.get('hosting')
 username = os.environ.get('user')
 password = os.environ.get('password')
-database = os.environ.get('dbname')
+database = os.environ.get('bdname')
 unaviable = u'\U0001F512' # unaviable
 success = u'\U00002705' # unaviable
 close = u'\U0000274C' # unaviable
@@ -170,7 +170,6 @@ def check_user(message):
         bot.send_message(message.chat.id,"У тебя - "+str(wins)+" побед.")
     except TypeError:
         bot.send_message(message.chat.id,"В базе не найдена ваша запись.")
-    con.commit()
     con.close()
 @bot.message_handler(commands=['check_users'])
 def check_user(message):

@@ -3,7 +3,7 @@ import os
 hostname = os.environ.get('hosting')
 username = os.environ.get('user')
 password = os.environ.get('password')
-database = os.environ.get('dbname')
+database = os.environ.get('bdname')
 def new_time(times,winner):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
