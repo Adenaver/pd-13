@@ -131,21 +131,6 @@ def about_lottery(message):
 @bot.message_handler(commands=['top'])
 def top_lst(message):
     top_list(message)
-@bot.message_handler(commands=['setnull'])
-def nulled(message):
-    if message.from_user.id== 376995776:
-        db = shelve.open("config.txt")
-        bot.send_message(message.chat.id,"✨ Время сброшено.")
-        now=datetime.datetime.now()
-        now_1=now.strftime('%d%m')
-        now_1=-100
-        db['time']=now_1
-        db['winner']="NULL"
-        db.sync()
-        db.close()
-    else:
-        bot.send_message(message.chat.id,"🔒 У тебя нет прав на эту команду.")
-        print(mes)
 @bot.message_handler(commands=['remove'])
 def nulled(message):
     if message.from_user.id== 376995776:
@@ -274,8 +259,6 @@ def spin(message):
         winner=db['winner']
         bot.send_message(message.chat.id,"🕒 Куда спешишь? Следующая игра будет доступна завтра.")
         #bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
-    db.sync()
-    db.close()
 @bot.message_handler(commands=['lottery'])
 def lottery(message):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
