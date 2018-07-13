@@ -28,6 +28,8 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 schedule_markup = telebot.types.ReplyKeyboardMarkup(True, False)
 schedule_markup.row('Сегодня', 'Завтра')
+user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
+user_markup.row('😎 Узнать кол-во побед', '🎲 Запустить лоторею','❗ О лоторее')
 keyboard = telebot.types.InlineKeyboardMarkup()
 callback_button = telebot.types.InlineKeyboardButton(text="Расписание(Сегодня)", callback_data="today")
 callback_button_test = telebot.types.InlineKeyboardButton(text="Состояние", callback_data="status")
@@ -126,7 +128,7 @@ def ss(message):
     bot.send_message(message.chat.id,"Выбери что тебе нужно сделать:",reply_markup=keyboard)
 @bot.message_handler(commands=['about_lottery'])
 def about_lottery(message):
-    bot.send_message(message.chat.id,"Игра в которой, ты можешь испытать свою удачу.\n Каждый день выбирается рандомно красавчик дня")
+    bot.send_message(message.chat.id,"Игра в которой, ты можешь испытать свою удачу.\n Каждый день выбирается рандомно красавчик дня",reply_markup = user_markup)
     bot.send_message(message.chat.id,"Команды: \n /lottery - участвовать в игре\n /lottery_leave - покинуть игру")
 @bot.message_handler(commands=['top'])
 def top_lst(message):
@@ -194,8 +196,8 @@ def spin(message):
     info_bd=row[0]
     con.close()
     if info_bd!=now:
-        bot.send_message(message.chat.id,"🏝 Внимание! С 14.07.2018 по 18.07.2018 будут проведенны по 2 игры.")
-        rand=random.randint(1,2)
+        bot.send_message(message.chat.id,"🏝 Внимание! С 14.07.2018 по 18.07.2018 будут проведенны по 2 игры.",reply_markup = user_markup)
+        rand=random.randint(1,3)
         if rand==1:
             counter=0
             con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
@@ -281,6 +283,48 @@ def spin(message):
             new_time(times,winner)
             con.commit()
             con.close()
+        if rand==3:
+            counter=0
+            con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+            cur = con.cursor()
+            cur.execute("SELECT * FROM users")
+            while True:
+                row = cur.fetchone()
+                if row == None:
+                    break
+                else:
+                    counter+=1
+            print("Кол-во участников: "+str(counter))
+            con.commit()
+            con.close()
+            bot.send_message(message.chat.id,"🃏 Раскладываем карты...")
+            time.sleep(5)
+            bot.send_message(message.chat.id,"🔮 Спрашиваем у духов...")
+            time.sleep(5)
+            randomizer=random.randint(0,counter-1)
+            print("Выбран рандомно: "+str(randomizer))
+            con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+            cur = con.cursor()
+            cur.execute("SELECT * FROM users")
+            for i in range(counter):
+                row = cur.fetchone()
+                if row == None:
+                    print("Остановка поиска. Конец БД")
+                    break
+                elif i==randomizer:
+                    if row[2]=="null":
+                        bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+" 👑")
+                    else:
+                        bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
+                    winner=str(row[2])+" "+str(row[3])
+                    new_score(id,counter)
+
+                print("Ход поиска:"+str(i))
+            last= datetime.datetime.now()
+            times=last.strftime('%d%m')
+            new_time(times,winner)
+            con.commit()
+            con.close()
     else:
         bot.send_message(message.chat.id,"🕒 Куда спешишь? Следующая игра будет доступна завтра.")
         #bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
@@ -297,7 +341,7 @@ def lottery(message):
     migrate_id=''.join(choice(ascii_uppercase) for i in range(20))
     migrated="No"
     cur.execute("""INSERT INTO users (id,user_id,first,last,migrate_id,migrated) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name,migrate_id,migrated))
-    bot.send_message(message.chat.id,success+"Ты в игре.")
+    bot.send_message(message.chat.id,success+"Ты в игре.",reply_markup = user_markup)
     con.commit()
     con.close()
 @bot.message_handler(commands=['lottery_leave'])
@@ -309,7 +353,16 @@ def lottery(message):
     bot.send_message(message.chat.id,"Похоже ты покинул игру :(")
     con.commit()
     con.close()
-
+@bot.message_handler(content_types=['text'])
+def text_messages(message):
+    if message.text=="😎 Узнать кол-во побед":
+        check_user(message)
+    elif message.text=="🎲 Запустить лоторею":
+        spin(message)
+    elif message.text=="❗ О лоторее":
+        about_lottery(message)
+    else:
+        pass
 @server.route('/' + str(TOKEN), methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
