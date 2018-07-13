@@ -256,7 +256,6 @@ def spin(message):
             con.commit()
             con.close()
     else:
-        winner=db['winner']
         bot.send_message(message.chat.id,"🕒 Куда спешишь? Следующая игра будет доступна завтра.")
         #bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
 @bot.message_handler(commands=['lottery'])
