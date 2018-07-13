@@ -234,7 +234,7 @@ def spin(message):
                     else:
                         bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     winner=str(row[2])+" "+str(row[3])
-                    new_score(id,counter)
+                    new_score(id)
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
             times=last.strftime('%d%m')
@@ -275,7 +275,7 @@ def spin(message):
                     else:
                         bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     winner=str(row[2])+" "+str(row[3])
-                    new_score(id,counter)
+                    new_score(id)
 
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
@@ -317,7 +317,7 @@ def spin(message):
                     else:
                         bot.send_message(message.chat.id,"Сегодня красавчик дня: "+str(row[2])+" "+str(row[3])+" 👑")
                     winner=str(row[2])+" "+str(row[3])
-                    new_score(id,counter)
+                    new_score(id)
 
                 print("Ход поиска:"+str(i))
             last= datetime.datetime.now()
