@@ -1,6 +1,6 @@
 pyTelegramBotAPI
 datetime
-psycopg2==2.7.4
+psycopg2==2.7.5
 beautifulsoup4
 flask
 psycopg2-binary
