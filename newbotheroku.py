@@ -171,19 +171,20 @@ def check_user(message):
     except TypeError:
         bot.send_message(message.chat.id,"В базе не найдена ваша запись.")
     con.close()
-@bot.message_handler(commands=['check_users'])
-def check_user(message):
-    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
-    cur = con.cursor()
-    cur.execute("SELECT * FROM users")
-    while True:
-        row = cur.fetchone()
-        if row == None:
-            break
-        elif row[3]==None:
-            bot.send_message(message.chat.id,"🚨 У пользователя "+str(row[2])+" не заполненно поле Фамилия.")
-    con.commit()
-    con.close()
+
+#@bot.message_handler(commands=['check_users'])
+#def check_user(message):
+#    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+#    cur = con.cursor()
+#    cur.execute("SELECT * FROM users")
+#    while True:
+#        row = cur.fetchone()
+#        if row == None:
+#            break
+#        elif row[3]==None:
+#            bot.send_message(message.chat.id,"🚨 У пользователя "+str(row[2])+" не заполненно поле Фамилия.")
+#    con.commit()
+#    con.close()
 @bot.message_handler(commands=['spin'])
 def spin(message):
     today = datetime.datetime.now()
