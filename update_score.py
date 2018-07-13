@@ -8,7 +8,7 @@ def new_score(id,counter):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
     score=0
-    cur.execute("SELECT id FROM users WHERE user_id = %s",(id,))
+    cur.execute("SELECT id FROM users WHERE user_id = %s" % id)
     row = cur.fetchone()
     score=row[0]
     score+=1
