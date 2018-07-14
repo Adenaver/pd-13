@@ -321,7 +321,7 @@ def spin(message):
 def lottery(message):
     con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
     cur = con.cursor()
-    id = random.randint(0,30)
+    id = 0
     user_id = message.from_user.id
     first_name = message.from_user.first_name
     last_name = message.from_user.last_name
