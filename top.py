@@ -105,7 +105,7 @@ def top_list(message):
             if row[1]!=id2 and row[1]!=id1 and row[1]!=id3 and row[1]!=id4:
                 if row[0]>max5 and max4>=max5:
                     max5=row[0]
-                    if row[3]="None":
+                    if row[3]=="None":
                         name5=str(row[2]))
                     else:
                         name5=str(row[2])+" "+str(row[3])
