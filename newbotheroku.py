@@ -28,6 +28,7 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 schedule_markup = telebot.types.ReplyKeyboardMarkup(True, False)
 schedule_markup.row('Сегодня', 'Завтра')
+hide = telebot.types.ReplyKeyboardRemove()
 user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
 user_markup.row('😎 Узнать кол-во побед', '🎲 Запустить лоторею','❗ О лоторее')
 keyboard = telebot.types.InlineKeyboardMarkup()
@@ -128,7 +129,7 @@ def ss(message):
     bot.send_message(message.chat.id,"Выбери что тебе нужно сделать:",reply_markup=keyboard)
 @bot.message_handler(commands=['about_lottery'])
 def about_lottery(message):
-    bot.send_message(message.chat.id,"Игра в которой, ты можешь испытать свою удачу.\n Каждый день выбирается рандомно красавчик дня",reply_markup = user_markup)
+    bot.send_message(message.chat.id,"Игра в которой, ты можешь испытать свою удачу.\n Каждый день выбирается рандомно красавчик дня",reply_markup = hide)
     bot.send_message(message.chat.id,"Команды: \n /lottery - участвовать в игре\n /lottery_leave - покинуть игру")
 @bot.message_handler(commands=['top'])
 def top_lst(message):
@@ -181,7 +182,7 @@ def spin(message):
     info_bd=row[0]
     con.close()
     if info_bd!=now:
-        bot.send_message(message.chat.id,"🏝 Внимание! С 14.07.2018 по 18.07.2018 будут проведенны по 2 игры.",reply_markup = user_markup)
+        bot.send_message(message.chat.id,"🏝 Внимание! С 14.07.2018 по 18.07.2018 будут проведенны по 2 игры.",reply_markup = hide)
         rand=random.randint(1,3)
         if rand==1:
             counter=0
@@ -327,7 +328,7 @@ def lottery(message):
     migrate_id=''.join(choice(ascii_uppercase) for i in range(20))
     migrated="No"
     cur.execute("""INSERT INTO users (id,user_id,first,last,migrate_id,migrated) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name,migrate_id,migrated))
-    bot.send_message(message.chat.id,success+"Ты в игре.",reply_markup = user_markup)
+    bot.send_message(message.chat.id,success+"Ты в игре.",reply_markup = hide)
     con.commit()
     con.close()
 @bot.message_handler(commands=['lottery_leave'])
