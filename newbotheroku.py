@@ -182,7 +182,6 @@ def spin(message):
     info_bd=row[0]
     con.close()
     if info_bd!=now:
-        bot.send_message(message.chat.id,"🏝 Внимание! С 14.07.2018 по 18.07.2018 будут проведенны по 2 игры.",reply_markup = hide)
         rand=random.randint(1,3)
         if rand==1:
             counter=0
