@@ -115,3 +115,20 @@ def top_list(message):
     print("5 Имя: "+str(name5))
     con.commit()
     con.close()
+def top_test(message):
+    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+    cur = con.cursor()
+    cur.execute("SELECT id,first,last FROM users ORDER BY id DESC")
+    i=1
+    while True:
+        row=cur.fetchone()
+        if row==None:
+            break
+        else:
+            if row[2]==None:
+                bot.send_message(message.chat.id,str(i)+"):"+str(row[1])+" Побед: "+str(row[0]))
+                i=i+1
+            else:
+                bot.send_message(message.chat.id,str(i)+"):"+str(row[1])+" "+str(row[2])+" Побед: "+str(row[0]))
+                i=i+1
+    con.close()

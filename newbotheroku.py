@@ -9,7 +9,7 @@ import random
 import shelve
 import psycopg2
 from flask import Flask, request
-from top import top_list
+from top import top_test
 from random import choice
 from string import ascii_uppercase
 from update_score import new_score
@@ -133,7 +133,7 @@ def about_lottery(message):
     bot.send_message(message.chat.id,"Команды: \n /lottery - участвовать в игре\n /lottery_leave - покинуть игру")
 @bot.message_handler(commands=['top'])
 def top_lst(message):
-    top_list(message)
+    top_test(message)
 @bot.message_handler(commands=['remove'])
 def nulled(message):
     if message.from_user.id== 376995776:
