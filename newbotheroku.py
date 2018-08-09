@@ -47,14 +47,15 @@ def log(message,answer):
     print("Ответ:",answer)
 today = datetime.datetime.now()
 date_one= "07.06.2018"
-group_data = '913'
+group_data = '1261'
 def parsing_timetable(call):
-    bot.send_message(call.message.chat.id, "🚫 Летом данная функция не доступна.")
-    """
+    #bot.send_message(call.message.chat.id, "🚫 Летом данная функция не доступна.")
     today = datetime.datetime.now()
-    date_one= today.strftime("%d.%m.%Y")
-    date_two = today.strftime("%d.%m.%Y")
-    schedule_url='http://e-rozklad.dut.edu.ua/timeTable/group?TimeTableForm%5Bfaculty%5D=1&TimeTableForm%5Bcourse%5D=1&TimeTableForm%5Bgroup%5D=913&TimeTableForm%5Bdate1%5D={}&TimeTableForm%5Bdate2%5D={}&TimeTableForm%5Br11%5D=5&timeTable=0'.format(date_one,date_one)
+    #date_one= today.strftime("%d.%m.%Y")
+    #date_two = today.strftime("%d.%m.%Y")
+    date_one="03.09.2018"
+    date_two="07.09.2018"
+    schedule_url='http://e-rozklad.dut.edu.ua/timeTable/group?TimeTableForm%5Bfaculty%5D=1&TimeTableForm%5Bcourse%5D=1&TimeTableForm%5Bgroup%5D=1261&TimeTableForm%5Bdate1%5D={}&TimeTableForm%5Bdate2%5D={}&TimeTableForm%5Br11%5D=5&timeTable=0'.format(date_one,date_one)
     for i in range(1):
         page = requests.post(schedule_url, data=group_data)
         soup = BeautifulSoup(page.text, 'html.parser')
@@ -111,7 +112,6 @@ def parsing_timetable(call):
                     store = {}
         if len(day[week])==0:
             bot.send_message(call.message.chat.id,"Пар не обнаруженно.")
-        """
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     if call.message:
@@ -121,7 +121,7 @@ def callback_inline(call):
             parsing_timetable(call)
         elif call.data == "status":
             bot.send_message(call.message.chat.id, "Статус: ОК")
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Держи!")
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
         elif call.data == "lottery":
             lottery(call)
 @bot.message_handler(commands=['menu'])
