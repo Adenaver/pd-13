@@ -32,9 +32,12 @@ hide = telebot.types.ReplyKeyboardRemove()
 user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
 user_markup.row('😎 Узнать кол-во побед', '🎲 Запустить лоторею','❗ О лоторее')
 keyboard = telebot.types.InlineKeyboardMarkup()
-callback_button = telebot.types.InlineKeyboardButton(text="Расписание(Сегодня)", callback_data="today")
-callback_button_test = telebot.types.InlineKeyboardButton(text="Состояние", callback_data="status")
-keyboard.add(callback_button,callback_button_test)
+call1 = telebot.types.InlineKeyboardButton(text="Расписание(03.09.2018)", callback_data="03082018")
+call2 = telebot.types.InlineKeyboardButton(text="Расписание(04.09.2018)", callback_data="04082018")
+call3 = telebot.types.InlineKeyboardButton(text="Расписание(05.09.2018)", callback_data="05082018")
+call4 = telebot.types.InlineKeyboardButton(text="Расписание(06.09.2018)", callback_data="06082018")
+call5 = telebot.types.InlineKeyboardButton(text="Расписание(07.09.2018)", callback_data="07082018")
+keyboard.add(call1,call2,call3,call4,call5)
 hide = telebot.types.ReplyKeyboardRemove()
 def log(message,answer):
     print("\n-----")
@@ -48,13 +51,13 @@ def log(message,answer):
 today = datetime.datetime.now()
 date_one= "07.06.2018"
 group_data = '1261'
-def parsing_timetable(call):
+def parsing_timetable(call,date_one):
     #bot.send_message(call.message.chat.id, "🚫 Летом данная функция не доступна.")
     today = datetime.datetime.now()
     #date_one= today.strftime("%d.%m.%Y")
     #date_two = today.strftime("%d.%m.%Y")
-    date_one="03.09.2018"
-    date_two="07.09.2018"
+    #date_one="03.09.2018"
+    #date_two="07.09.2018"
     schedule_url='http://e-rozklad.dut.edu.ua/timeTable/group?TimeTableForm%5Bfaculty%5D=1&TimeTableForm%5Bcourse%5D=1&TimeTableForm%5Bgroup%5D=1261&TimeTableForm%5Bdate1%5D={}&TimeTableForm%5Bdate2%5D={}&TimeTableForm%5Br11%5D=5&timeTable=0'.format(date_one,date_one)
     for i in range(1):
         page = requests.post(schedule_url, data=group_data)
@@ -113,10 +116,26 @@ def parsing_timetable(call):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     if call.message:
-        if call.data == "today":
-            #bot.send_message(call.message.chat.id, "Еее")
+        if call.data == "03082018":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            parsing_timetable(call)
+            date_one="03.08.2018"
+            parsing_timetable(call,date_one)
+        if call.data == "04082018":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
+            date_one="04.08.2018"
+            parsing_timetable(call,date_one)
+        if call.data == "05082018":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
+            date_one="05.08.2018"
+            parsing_timetable(call,date_one)
+        if call.data == "06082018":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
+            date_one="06.08.2018"
+            parsing_timetable(call,date_one)
+        if call.data == "07082018":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
+            date_one="07.08.2018"
+            parsing_timetable(call,date_one)
         elif call.data == "status":
             bot.send_message(call.message.chat.id, "Статус: ОК")
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
