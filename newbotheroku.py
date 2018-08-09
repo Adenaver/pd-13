@@ -56,7 +56,7 @@ def parsing_timetable(call,date_one):
     today = datetime.datetime.now()
     #date_one= today.strftime("%d.%m.%Y")
     #date_two = today.strftime("%d.%m.%Y")
-    #date_one="03.09.2018"
+    date_one="03.09.2018"
     #date_two="07.09.2018"
     schedule_url='http://e-rozklad.dut.edu.ua/timeTable/group?TimeTableForm%5Bfaculty%5D=1&TimeTableForm%5Bcourse%5D=1&TimeTableForm%5Bgroup%5D=1261&TimeTableForm%5Bdate1%5D={}&TimeTableForm%5Bdate2%5D={}&TimeTableForm%5Br11%5D=5&timeTable=0'.format(date_one,date_one)
     for i in range(1):
