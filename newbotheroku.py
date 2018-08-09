@@ -143,7 +143,7 @@ def callback_inline(call):
             lottery(call)
 @bot.message_handler(commands=['menu'])
 def ss(message):
-    bot.send_message(message.chat.id,"Выбери что тебе нужно сделать:",reply_markup=keyboard)
+    bot.send_message(message.chat.id,"Доступные действия:",reply_markup=keyboard)
 @bot.message_handler(commands=['about_lottery'])
 def about_lottery(message):
     bot.send_message(message.chat.id,"Игра в которой, ты можешь испытать свою удачу.\n Каждый день выбирается рандомно красавчик дня",reply_markup = hide)
