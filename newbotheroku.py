@@ -49,14 +49,13 @@ def log(message,answer):
                                                                 message.text))
     print("Ответ:",answer)
 today = datetime.datetime.now()
-date_one= "07.06.2018"
 group_data = '1261'
 def parsing_timetable(call,date_one):
     #bot.send_message(call.message.chat.id, "🚫 Летом данная функция не доступна.")
     today = datetime.datetime.now()
     #date_one= today.strftime("%d.%m.%Y")
     #date_two = today.strftime("%d.%m.%Y")
-    date_one="03.09.2018"
+    #date_one="03.09.2018"
     #date_two="07.09.2018"
     schedule_url='http://e-rozklad.dut.edu.ua/timeTable/group?TimeTableForm%5Bfaculty%5D=1&TimeTableForm%5Bcourse%5D=1&TimeTableForm%5Bgroup%5D=1261&TimeTableForm%5Bdate1%5D={}&TimeTableForm%5Bdate2%5D={}&TimeTableForm%5Br11%5D=5&timeTable=0'.format(date_one,date_one)
     for i in range(1):
@@ -118,23 +117,23 @@ def callback_inline(call):
     if call.message:
         if call.data == "03082018":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="03.08.2018"
+            date_one="03.09.2018"
             parsing_timetable(call,date_one)
         if call.data == "04082018":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="04.08.2018"
+            date_one="04.09.2018"
             parsing_timetable(call,date_one)
         if call.data == "05082018":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="05.08.2018"
+            date_one="05.09.2018"
             parsing_timetable(call,date_one)
         if call.data == "06082018":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="06.08.2018"
+            date_one="06.09.2018"
             parsing_timetable(call,date_one)
         if call.data == "07082018":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="07.08.2018"
+            date_one="07.09.2018"
             parsing_timetable(call,date_one)
         elif call.data == "status":
             bot.send_message(call.message.chat.id, "Статус: ОК")
