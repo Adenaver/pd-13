@@ -140,6 +140,18 @@ def callback_inline(call):
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
         elif call.data == "lottery":
             lottery(call)
+def nontification(message,type):
+    first = message.from_user.first_name
+    last = message.from_user.last_name
+    now=datetime.datetime.now()
+    if type == 1:
+        bot.send_message(376995776,"Внимание:\n попытка регистрации,активации,удаления.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
+    elif type == 2:
+        bot.send_message(376995776,"Внимание:\n запущенна рулетка.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
+    elif type == 3:
+        bot.send_message(376995776,"Внимание:\n запрос на расписание.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
+    else:
+        bot.send_message(376995776,"Внимание:\n не индефицировананный запрос к боту.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
 @bot.message_handler(commands=['menu'])
 def ss(message):
     bot.send_message(message.chat.id,"Доступные действия:",reply_markup=keyboard)
@@ -162,18 +174,21 @@ def status(message):
     print(message.chat.id)
 @bot.message_handler(commands=['my_wins'])
 def check_user(message):
-    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
-    cur = con.cursor()
-    id=message.from_user.id
-    try:
-        cur.execute("SELECT id FROM users WHERE user_id = %s",(id,))
-        row=cur.fetchone()
-        wins=row[0]
-        bot.send_message(message.chat.id,"У тебя - "+str(wins)+" побед.")
-    except TypeError:
-        bot.send_message(message.chat.id,"В базе не найдена ваша запись.")
-    con.close()
-
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+        bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
+        nontification(message)
+    else:
+        con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+        cur = con.cursor()
+        id=message.from_user.id
+        try:
+            cur.execute("SELECT id FROM users WHERE user_id = %s",(id,))
+            row=cur.fetchone()
+            wins=row[0]
+            bot.send_message(message.chat.id,"У тебя - "+str(wins)+" побед.")
+        except TypeError:
+            bot.send_message(message.chat.id,"В базе не найдена ваша запись.")
+        con.close()
 #@bot.message_handler(commands=['check_users'])
 #def check_user(message):
 #    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
@@ -188,6 +203,13 @@ def check_user(message):
 #    con.commit()
 #    con.close()
 @bot.message_handler(commands=['spin'])
+def prespin(message):
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+        bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
+        nontification(message,1)
+    else:
+        nontification(message,2)
+        spin(message)
 def spin(message):
     today = datetime.datetime.now()
     now=today.strftime('%d%m')
@@ -334,37 +356,49 @@ def spin(message):
         #bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
 @bot.message_handler(commands=['lottery'])
 def lottery(message):
-    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
-    cur = con.cursor()
-    id = 0
-    user_id = message.from_user.id
-    first_name = message.from_user.first_name
-    last_name = message.from_user.last_name
-    migrate_id=''.join(choice(ascii_uppercase) for i in range(20))
-    migrated="No"
-    cur.execute("""INSERT INTO users (id,user_id,first,last,migrate_id,migrated) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name,migrate_id,migrated))
-    bot.send_message(message.chat.id,success+"Ты в игре.",reply_markup = hide)
-    con.commit()
-    con.close()
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+        bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
+        nontification(message,1)
+    else:
+        con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+        cur = con.cursor()
+        id = 0
+        user_id = message.from_user.id
+        first_name = message.from_user.first_name
+        last_name = message.from_user.last_name
+        migrate_id=''.join(choice(ascii_uppercase) for i in range(20))
+        migrated="No"
+        cur.execute("""INSERT INTO users (id,user_id,first,last,migrate_id,migrated) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT DO NOTHING""", (id,user_id,first_name,last_name,migrate_id,migrated))
+        bot.send_message(message.chat.id,success+"Ты в игре.",reply_markup = hide)
+        con.commit()
+        con.close()
 @bot.message_handler(commands=['lottery_leave'])
 def lottery(message):
-    con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
-    cur = con.cursor()
-    test=message.from_user.id
-    cur.execute("DELETE FROM users WHERE user_id = %s" % test)
-    bot.send_message(message.chat.id,"Похоже ты покинул игру :(")
-    con.commit()
-    con.close()
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+        bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
+        nontification(message,1)
+    else:
+        con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+        cur = con.cursor()
+        test=message.from_user.id
+        cur.execute("DELETE FROM users WHERE user_id = %s" % test)
+        bot.send_message(message.chat.id,"Похоже ты покинул игру :(")
+        con.commit()
+        con.close()
 @bot.message_handler(content_types=['text'])
 def text_messages(message):
-    if message.text=="😎 Узнать кол-во побед":
-        check_user(message)
-    elif message.text=="🎲 Запустить лоторею":
-        spin(message)
-    elif message.text=="❗ О лоторее":
-        about_lottery(message)
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+        bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
+        nontification(message,1)
     else:
-        pass
+        if message.text=="😎 Узнать кол-во побед":
+            check_user(message)
+        elif message.text=="🎲 Запустить лоторею":
+            spin(message)
+        elif message.text=="❗ О лоторее":
+            about_lottery(message)
+        else:
+            pass
 @server.route('/' + str(TOKEN), methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
