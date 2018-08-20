@@ -145,13 +145,13 @@ def nontification(message,type):
     last = message.from_user.last_name
     now=datetime.datetime.now()
     if type == 1:
-        bot.send_message(376995776,"Внимание:\n попытка регистрации,активации,удаления.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание:\n попытка регистрации,активации,удаления.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
     elif type == 2:
-        bot.send_message(376995776,"Внимание:\n запущенна рулетка.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание:\n запущенна рулетка.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
     elif type == 3:
-        bot.send_message(376995776,"Внимание:\n запрос на расписание.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание:\n запрос на расписание.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
     else:
-        bot.send_message(376995776,"Внимание:\n не индефицировананный запрос к боту.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+message.from_user.id+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание:\n не индефицировананный запрос к боту.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
 @bot.message_handler(commands=['menu'])
 def ss(message):
     bot.send_message(message.chat.id,"Доступные действия:",reply_markup=keyboard)
