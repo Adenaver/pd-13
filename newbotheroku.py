@@ -149,9 +149,6 @@ def nulled(message):
     else:
         bot.send_message(message.chat.id,"🔒 У тебя нет прав на эту команду.")
         print(mes)
-@bot.message_handler(commands=['reg'])
-def status(message):
-
 @bot.message_handler(commands=['my_wins'])
 def check_user(message):
     if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978 or message.from_user.id == 559066333:
