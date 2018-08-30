@@ -29,15 +29,10 @@ server = Flask(__name__)
 schedule_markup = telebot.types.ReplyKeyboardMarkup(True, False)
 schedule_markup.row('Сегодня', 'Завтра')
 hide = telebot.types.ReplyKeyboardRemove()
-user_markup = telebot.types.ReplyKeyboardMarkup(True, False)
-user_markup.row('😎 Узнать кол-во побед', '🎲 Запустить лоторею','❗ О лоторее')
 keyboard = telebot.types.InlineKeyboardMarkup()
-call1 = telebot.types.InlineKeyboardButton(text="Расписание(03.09.2018)", callback_data="03082018")
-call2 = telebot.types.InlineKeyboardButton(text="Расписание(04.09.2018)", callback_data="04082018")
-call3 = telebot.types.InlineKeyboardButton(text="Расписание(05.09.2018)", callback_data="05082018")
-call4 = telebot.types.InlineKeyboardButton(text="Расписание(06.09.2018)", callback_data="06082018")
-call5 = telebot.types.InlineKeyboardButton(text="Расписание(07.09.2018)", callback_data="07082018")
-keyboard.add(call1,call2,call3,call4,call5)
+call1 = telebot.types.InlineKeyboardButton(text="Cегодня", callback_data="today")
+call2 = telebot.types.InlineKeyboardButton(text="Завтра", callback_data="nextday")
+keyboard.add(call1,call2)
 hide = telebot.types.ReplyKeyboardRemove()
 def log(message,answer):
     print("\n-----")
@@ -50,8 +45,9 @@ def log(message,answer):
     print("Ответ:",answer)
 today = datetime.datetime.now()
 group_data = '1261'
-def parsing_timetable(call,date_one):
+def parsing_timetable(week,date_one):
     #bot.send_message(call.message.chat.id, "🚫 Летом данная функция не доступна.")
+    nontification(message,3)
     today = datetime.datetime.now()
     #date_one= today.strftime("%d.%m.%Y")
     #date_two = today.strftime("%d.%m.%Y")
@@ -86,7 +82,6 @@ def parsing_timetable(call,date_one):
             lessons_data = lessons_data[count:]
             lessons_order = lessons_order[count:]
         print(order)
-        week= datetime.datetime.today().weekday()
         print(week)
         for day, k in zip(data, order):
             store = {}
@@ -115,50 +110,35 @@ def parsing_timetable(call,date_one):
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
     if call.message:
-        if call.data == "03082018":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="03.09.2018"
-            parsing_timetable(call,date_one)
-        if call.data == "04082018":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="04.09.2018"
-            parsing_timetable(call,date_one)
-        if call.data == "05082018":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="05.09.2018"
-            parsing_timetable(call,date_one)
-        if call.data == "06082018":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="06.09.2018"
-            parsing_timetable(call,date_one)
-        if call.data == "07082018":
-            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Лови!")
-            date_one="07.09.2018"
-            parsing_timetable(call,date_one)
-        elif call.data == "status":
-            bot.send_message(call.message.chat.id, "Статус: ОК")
+        today= datetime.datetime.now()
+        if call.data == "today":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
-        elif call.data == "lottery":
-            lottery(call)
+            date_one=today.strftime("%d.%m.%Y")
+            week= today.weekday()
+            parsing_timetable(week,date_one)
+        if call.data == "nextday":
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
+            date_two = today+datetime.timedelta(days=1)
+            week= date_two.weekday()
+            date_two=date_two.strftime("%d.%m.%Y")
+            parsing_timetable(week,date_two)
+        else:
+            bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="Ошибка")
 def nontification(message,type):
     first = message.from_user.first_name
     last = message.from_user.last_name
     now=datetime.datetime.now()
     if type == 1:
-        bot.send_message(376995776,"Внимание:\n попытка регистрации,активации,удаления.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание: попытка регистрации,активации,удаления.\nИмя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
     elif type == 2:
-        bot.send_message(376995776,"Внимание:\n запущенна рулетка.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание: запущенна рулетка.\nИмя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
     elif type == 3:
-        bot.send_message(376995776,"Внимание:\n запрос на расписание.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание: запрос на расписание.\nИмя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
     else:
-        bot.send_message(376995776,"Внимание:\n не индефицировананный запрос к боту.\n Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
+        bot.send_message(376995776,"Внимание: не индефицировананный запрос к боту.\nИмя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now))
 @bot.message_handler(commands=['menu'])
 def ss(message):
     bot.send_message(message.chat.id,"Доступные действия:",reply_markup=keyboard)
-@bot.message_handler(commands=['about_lottery'])
-def about_lottery(message):
-    bot.send_message(message.chat.id,"Игра в которой, ты можешь испытать свою удачу.\n Каждый день выбирается рандомно красавчик дня",reply_markup = hide)
-    bot.send_message(message.chat.id,"Команды: \n /lottery - участвовать в игре\n /lottery_leave - покинуть игру")
 @bot.message_handler(commands=['top'])
 def top_lst(message):
     top_test(message)
@@ -169,12 +149,12 @@ def nulled(message):
     else:
         bot.send_message(message.chat.id,"🔒 У тебя нет прав на эту команду.")
         print(mes)
-@bot.message_handler(commands=['s'])
+@bot.message_handler(commands=['reg'])
 def status(message):
-    print(message.chat.id)
+
 @bot.message_handler(commands=['my_wins'])
 def check_user(message):
-    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978 or message.from_user.id == 559066333:
         bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
         nontification(message)
     else:
@@ -204,12 +184,11 @@ def check_user(message):
 #    con.close()
 @bot.message_handler(commands=['spin'])
 def prespin(message):
-    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978 or message.from_user.id == 559066333:
         bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
         nontification(message,1)
     else:
-        nontification(message,2)
-        spin(message)
+        bot.send_message(message.chat.id,"Лоторея закрыта.",)
 def spin(message):
     today = datetime.datetime.now()
     now=today.strftime('%d%m')
@@ -356,7 +335,7 @@ def spin(message):
         #bot.send_message(message.chat.id,"🎉 Последний победитель: "+winner)
 @bot.message_handler(commands=['lottery'])
 def lottery(message):
-    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978 or message.from_user.id == 559066333:
         bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
         nontification(message,1)
     else:
@@ -374,7 +353,7 @@ def lottery(message):
         con.close()
 @bot.message_handler(commands=['lottery_leave'])
 def lottery(message):
-    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978 or message.from_user.id == 559066333:
         bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
         nontification(message,1)
     else:
@@ -382,12 +361,12 @@ def lottery(message):
         cur = con.cursor()
         test=message.from_user.id
         cur.execute("DELETE FROM users WHERE user_id = %s" % test)
-        bot.send_message(message.chat.id,"Похоже ты покинул игру :(")
+        bot.send_message(message.chat.id,"Ты покинул игру.")
         con.commit()
         con.close()
 @bot.message_handler(content_types=['text'])
 def text_messages(message):
-    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978:
+    if message.from_user.id == 312023065 or message.from_user.id == 345694869 or message.from_user.id == 650340191 or message.from_user.id == 650340191 or message.from_user.id == 482906929 or message.from_user.id == 290522978 or message.from_user.id == 559066333:
         bot.send_message(message.chat.id,"Ваша учетная запись заблокированна.",)
         nontification(message,1)
     else:
@@ -398,7 +377,18 @@ def text_messages(message):
         elif message.text=="❗ О лоторее":
             about_lottery(message)
         else:
+            con = psycopg2.connect( host=hostname, user=username, password=password, dbname=database )
+            cur = con.cursor()
+            cur.execute("SELECT spy FROM config")
+            info=cur.fetchone()
+            if info[0]=0:
+                bot.send_message(376995776,"Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now)+"\nТекст: "+str(message.text))
+            con.close()
             pass
+@bot.message_handler(content_types=["text"])
+def spy(message):
+#    -1001302451025 группа
+
 @server.route('/' + str(TOKEN), methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
