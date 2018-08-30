@@ -382,8 +382,6 @@ def text_messages(message):
                 bot.send_message(376995776,"Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now)+"\nТекст: "+str(message.text))
             con.close()
             pass
-@bot.message_handler(content_types=["text"])
-def spy(message):
 #    -1001302451025 группа
 
 @server.route('/' + str(TOKEN), methods=['POST'])
