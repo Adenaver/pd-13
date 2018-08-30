@@ -378,7 +378,7 @@ def text_messages(message):
             cur = con.cursor()
             cur.execute("SELECT spy FROM config")
             info=cur.fetchone()
-            if info[0]=0:
+            if info[0]==0:
                 bot.send_message(376995776,"Имя: "+str(first)+" "+str(last)+" \nUserID: "+str(message.from_user.id)+"\nВремя: "+str(now)+"\nТекст: "+str(message.text))
             con.close()
             pass
