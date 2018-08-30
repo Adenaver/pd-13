@@ -47,7 +47,6 @@ today = datetime.datetime.now()
 group_data = '1261'
 def parsing_timetable(week,date_one):
     #bot.send_message(call.message.chat.id, "🚫 Летом данная функция не доступна.")
-    nontification(message,3)
     today = datetime.datetime.now()
     #date_one= today.strftime("%d.%m.%Y")
     #date_two = today.strftime("%d.%m.%Y")
