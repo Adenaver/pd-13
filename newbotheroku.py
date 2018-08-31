@@ -105,7 +105,7 @@ def parsing_timetable(call,week,date_one):
                     print(store['lesson_teacher'])
                     store = {}
                 else:
-                    bot.send_message(call.message.chat.id,"Нету пар.")
+                    bot.send_message(call.message.chat.id,"]"+str(date_one)+"]"+" Нету пар.")
                     return
 @bot.callback_query_handler(func=lambda call: True)
 def callback_inline(call):
