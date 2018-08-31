@@ -118,9 +118,9 @@ def callback_inline(call):
             parsing_timetable(call,week,date_one)
         if call.data == "nextday":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
-            date_two = today+datetime.timedelta(days=1)
-            week= date_two.weekday()
-            date_two=date_two.strftime("%d.%m.%Y")
+            tomorrow = today+datetime.timedelta(days=1)
+            week= tomorrow.weekday()
+            date_two=tomorrow.strftime("%d.%m.%Y")
             parsing_timetable(call,week,date_two)
         else:
             bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="Ошибка")
