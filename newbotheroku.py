@@ -45,7 +45,7 @@ def log(message,answer):
     print("Ответ:",answer)
 today = datetime.datetime.now()
 group_data = '1261'
-def parsing_timetable(week,date_one):
+def parsing_timetable(call,week,date_one):
     #bot.send_message(call.message.chat.id, "🚫 Летом данная функция не доступна.")
     today = datetime.datetime.now()
     #date_one= today.strftime("%d.%m.%Y")
@@ -114,13 +114,13 @@ def callback_inline(call):
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
             date_one=today.strftime("%d.%m.%Y")
             week= today.weekday()
-            parsing_timetable(week,date_one)
+            parsing_timetable(call,week,date_one)
         if call.data == "nextday":
             bot.answer_callback_query(callback_query_id=call.id, show_alert=False, text="Проверяем...")
             date_two = today+datetime.timedelta(days=1)
             week= date_two.weekday()
             date_two=date_two.strftime("%d.%m.%Y")
-            parsing_timetable(week,date_two)
+            parsing_timetable(call,week,date_two)
         else:
             bot.answer_callback_query(callback_query_id=call.id, show_alert=True, text="Ошибка")
 def nontification(message,type):
