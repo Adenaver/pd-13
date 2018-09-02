@@ -93,9 +93,9 @@ def parsing_timetable(call,week,date_one):
                     store['lesson_teacher'] = ' '.join(day[i].split()[2:])
                     day[i] = store
                     store = {}
+        controller=0
         for day, k in zip(data, order):
             store = {}
-            controller=0
             for i in range(len(day)):
                 if len(day[i]) is not 0:
                     store = day[i]
