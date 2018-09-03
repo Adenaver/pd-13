@@ -97,6 +97,7 @@ def parsing_timetable(call,week,date_one):
         for day, k in zip(data, order):
             store = {}
             for i in range(len(day)):
+                print(day)
                 if len(day[i]) is not 0:
                     store = day[i]
                     bot.send_message(call.message.chat.id,str(store['lesson_order']) +' пара\n|' + str(store['lesson_title']) +' | '+ str(store['lesson_classroom']) +'\n - '+ str(store['lesson_teacher']))
