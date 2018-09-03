@@ -72,7 +72,7 @@ def parsing_timetable(call,week,date_one):
 
         lessons_count = [div.text.count('пара') for div in schedule_table.findAll('td') if 'пара' in div.text][:-2]
         data, order = [], []
-        print(lessons_date[4])
+        print(lessons_date[week])
         #print(lessons_count)
         for count in lessons_count:
             data.append(lessons_data[:count])
